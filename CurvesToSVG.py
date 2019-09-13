@@ -28,14 +28,11 @@ def write_path(fp, points):
   data += 'Q{} {} {} {} '.format(points[1].x(), points[1].y(), midpoint.x(), midpoint.y())
   length = len(points)-1
   i = 2 
-  for p in points[3:]:
-   # if p%2 == 0:
-    midpoint = hou.Vector2((p.x() + points[i].x())/2, 
-                         (p.y() + points[i].y())/2)
-    if length != i + 1:                     
-        data += 'T{} {} '.format(midpoint.x(), midpoint.y())
 
-    i = i + 1
+  for i in range(2, length):
+    midpoint = hou.Vector2((points[i].x() + points[i+1].x())/2, 
+                           (points[i].y() + points[i+1].y())/2)                                             
+    data += 'T{} {} '.format(midpoint.x(), midpoint.y())
   data += 'T{} {} '.format(points[length].x(), points[length].y())
   fp.write('<path d="{}" stroke="blue" stroke-width="{}px" fill="none"/>\n'.format(data, stroke_width))
 
